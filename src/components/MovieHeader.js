@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { toggleFavorites } from '../actions/favoritesActions';
 
 const mapStatetoProps = (state) => {
-    console.log(state)
+    // console.log(state)
     return ({
         appTitle: state.movieReducer.appTitle,
         displayFavorites: state.favoritesReducer.displayFavorites,

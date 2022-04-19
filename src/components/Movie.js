@@ -2,6 +2,7 @@ import React from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { deleteMovie } from '../actions/movieActions';
+import { addFavorite } from '../actions/favoritesActions';
 
 const mapStatetoProps = (state) => {
     return ({
@@ -9,16 +10,20 @@ const mapStatetoProps = (state) => {
         displayFavorites: state.favoritesReducer.displayFavorites
     })
 }
+
 const Movie = (props) => {
     const { id } = useParams();
     const { push } = useHistory();
 
-    const {movies, deleteMovie, displayFavorites} = props // another way to write it
+    const {movies, deleteMovie, addFavorite, displayFavorites} = props // another way to write it make sure you pass all reducers here
     const movie = movies.find(movie=>movie.id===Number(id));
     
     const handleDeleteMovie =() =>{
         deleteMovie(movie.id); // no need to pass id we can just put it in directly why? because if you check the UI or DOM the delete method only appears when one movie is being shown (only one id)
         push('/movies'); // goes back to page
+    }
+    const handleAddFavorite = () => {
+        addFavorite(movie);
     }
     return(<div className="modal-page col">
         <div className="modal-dialog">
@@ -49,7 +54,7 @@ const Movie = (props) => {
                         </section>
                         
                         <section>
-                            {displayFavorites? <span className="m-2 btn btn-dark">Favorite</span>: ""}
+                            {displayFavorites? <span onClick={handleAddFavorite} className="m-2 btn btn-dark">Favorite</span>: ""}
                             <span className="delete" onClick={handleDeleteMovie}><input type="button" className="m-2 btn btn-danger" value="Delete"/></span>
                         </section>
                     </div>
@@ -59,4 +64,4 @@ const Movie = (props) => {
     </div>);
 }
 
-export default connect(mapStatetoProps, {deleteMovie})(Movie);
+export default connect(mapStatetoProps, {deleteMovie, addFavorite})(Movie);
