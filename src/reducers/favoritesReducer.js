@@ -15,10 +15,6 @@ const favoritesReducer = (state = initialState, action) => {
                 displayFavorites: !state.displayFavorites
             }
         case ADD_FAVORITE:
-            const newMovie ={
-                ...action.payload,
-                id: Date.now()
-            }
             return {
                 ...state,
                 favorites: [...state.favorites, action.payload] //check favoritesaction, payload is the movie
