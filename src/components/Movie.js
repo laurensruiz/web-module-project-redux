@@ -1,13 +1,24 @@
 import React from 'react';
 import { useParams, useHistory } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { deleteMovie } from '../actions/movieActions';
 
+const mapStatetoProps = (state) => {
+    return ({
+        movies: state.movies
+    })
+}
 const Movie = (props) => {
     const { id } = useParams();
     const { push } = useHistory();
 
-    const movies = [];
+    const {movies, deleteMovie} = props // another way to write it
     const movie = movies.find(movie=>movie.id===Number(id));
     
+    const handleDeleteMovie =() =>{
+        deleteMovie(movie.id); // no need to pass id we can just put it in directly why? because if you check the UI or DOM the delete method only appears when one movie is being shown (only one id)
+        push('/movies'); // goes back to page
+    }
     return(<div className="modal-page col">
         <div className="modal-dialog">
             <div className="modal-content">
@@ -38,7 +49,7 @@ const Movie = (props) => {
                         
                         <section>
                             <span className="m-2 btn btn-dark">Favorite</span>
-                            <span className="delete"><input type="button" className="m-2 btn btn-danger" value="Delete"/></span>
+                            <span className="delete" onClick={handleDeleteMovie}><input type="button" className="m-2 btn btn-danger" value="Delete"/></span>
                         </section>
                     </div>
                 </div>
@@ -47,4 +58,4 @@ const Movie = (props) => {
     </div>);
 }
 
-export default Movie;
+export default connect(mapStatetoProps, {deleteMovie})(Movie);
