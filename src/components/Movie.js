@@ -5,14 +5,15 @@ import { deleteMovie } from '../actions/movieActions';
 
 const mapStatetoProps = (state) => {
     return ({
-        movies: state.movies
+        movies: state.movieReducer.movies,
+        displayFavorites: state.favoritesReducer.displayFavorites
     })
 }
 const Movie = (props) => {
     const { id } = useParams();
     const { push } = useHistory();
 
-    const {movies, deleteMovie} = props // another way to write it
+    const {movies, deleteMovie, displayFavorites} = props // another way to write it
     const movie = movies.find(movie=>movie.id===Number(id));
     
     const handleDeleteMovie =() =>{
@@ -48,7 +49,7 @@ const Movie = (props) => {
                         </section>
                         
                         <section>
-                            <span className="m-2 btn btn-dark">Favorite</span>
+                            {displayFavorites? <span className="m-2 btn btn-dark">Favorite</span>: ""}
                             <span className="delete" onClick={handleDeleteMovie}><input type="button" className="m-2 btn btn-danger" value="Delete"/></span>
                         </section>
                     </div>

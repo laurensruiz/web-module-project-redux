@@ -6,8 +6,9 @@ import MovieListItem from './MovieListItem';
 import MovieFooter from './MovieFooter';
 
 const mapStatetoProps = (state) => {
+    //console.log your state it is not state.movies anymore because of combinedreducer
     return ({
-        movies: state.movies
+        movies: state.movieReducer.movies
     })
 }
 const MovieList = (props)=> {
